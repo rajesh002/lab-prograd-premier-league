@@ -105,7 +105,7 @@ function filterByAward(award) {
     count = 0
   for (var index = 0; index < players.length; index++) {
     for (var index1 = 0; index1 < players[index].awards.length; index1++) {
-      if (players[index].awards[index1][0] == award)
+      if (players[index].awards[index1].name == award)
         res.push(players[index])
     }
   }
@@ -114,12 +114,27 @@ function filterByAward(award) {
 
 //Progression 6 - Filter players that won ______ award ____ times
 
+function filterByAwardNumber(index, award) {
+  var count = 0
+  count = 0
+  for (var index1 = 0; index1 < players[index].awards.length; index1++) {
+    if (players[index].awards[index1].name == award)
+      count += 1
+  }
+  return count
+}
+
+
+
 function filterByAwardxTimes(awardName, noOfTimes) {
+  var res = []
   if (awardName == null)
     return []
-  if ((filterByAward(awardName).length == noOfTimes)) return filterByAward(awardName)
-  else
-    return []
+  for (var index = 0; index < players.length; index++) {
+    if (filterByAwardNumber(index, awardName) == noOfTimes)
+      res.push(players[index])
+  }
+  return res
 }
 
 
@@ -127,13 +142,15 @@ function filterByAwardxTimes(awardName, noOfTimes) {
 
 //Progression 7 - Filter players that won ______ award and belong to ______ country
 
-function filterByAwardxCountry(award, coun) {
+function filterByAwardxCountry(award, conn) {
   if (award == null)
     return []
   var res = [],
     count = 0
   for (var index = 0; index < players.length; index++) {
-    if ((players[index].awards.name == award) && (players[index].country == coun)) res.push(players[index])
+    for (var index1 = 0; index1 < players[index].awards.length; index1++) {
+      if ((players[index].awards[index1].name == award) && (players[index].country == conn)) res.push(players[index])
+    }
   }
   return res
 }
@@ -142,9 +159,13 @@ function filterByAwardxCountry(award, coun) {
 
 
 function filterByNoOfAwardsxTeamxAge(noAwards, team, age) {
+  var res = []
   if ((typeof (noAwards) == 'undefined') && (typeof (team) == 'undefined') && (typeof (age) == 'undefined')) return []
-  else
-    return []
+  for (var index = 0; index < players.length; index++) {
+    if ((players[index].awards.length >= noAwards) && (players[index].team == team) && (players[index].age < age))
+      res.push(players[index])
+  }
+  return res
 }
 
 
